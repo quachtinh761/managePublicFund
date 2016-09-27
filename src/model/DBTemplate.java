@@ -149,8 +149,6 @@ public class DBTemplate {
                 row.add(rs.getString(1));
                 row.add(rs.getString(2));
                 model.addRow(row);
-                //DefaultTableModel DataDisplay = model;
-                //DataDisplay.set
             }
         }catch (Exception e){
         }
