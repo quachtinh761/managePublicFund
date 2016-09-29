@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.table.DefaultTableModel;
 import object.consumeObject;
 
 /**
@@ -19,11 +20,23 @@ import object.consumeObject;
  * @author Nguyen Van Tinh
  */
 public class consumeModel {
-    private Connection conn;
     private final String tblName = "consumeTable";
     DBTemplate model = new DBTemplate(tblName);
     
-    private boolean createTable(){
+    public consumeModel(){
+        model.getConnect();
+        //this.createTable();
+    }
+    
+    public void getConnect(){
+        model.getConnect();
+    }
+    
+    public void closeConnect(){
+        model.closeConnect();
+    }
+    
+    public boolean createTable(){
         Map<String, String> params= new HashMap();
         params.put(consumeConstant.KEY_ID, consumeConstant.KEY_ID_TYPE);
         params.put(consumeConstant.KEY_DATE, consumeConstant.KEY_DATE_TYPE);
@@ -33,15 +46,21 @@ public class consumeModel {
     }
     
     public boolean addNew(consumeObject consume){
-        boolean result =  model.getConnect();
-        this.createTable();
-        
         Map<String, String> params= new HashMap();
-        params.put(consumeConstant.KEY_ID, dateTimeHandle.getDateFormat(consume.getDate(), "hhmmddMMyyyy"));
-        params.put(consumeConstant.KEY_DATE, dateTimeHandle.getDateFormat(consume.getDate(), "hhmmddMMyyyy"));
+        params.put(consumeConstant.KEY_ID, dateTimeHandle.getDateFormat(new Date(), "yyyyMMddhhmm"));
+        params.put(consumeConstant.KEY_DATE, dateTimeHandle.getDateFormat(consume.getDate(), "yyyyMMddhhmm"));
         params.put(consumeConstant.KEY_AMOUNT, Integer.toString(consume.getAmount()));
         params.put(consumeConstant.KEY_CONTENT, consume.getContent());
-        model.insertTable(tblName, params);
-        return result && model.closeConnect();
+        
+        System.out.println(getAllTableConsumeInDB().getRowCount());
+        if (getAllTableConsumeInDB().getRowCount() == 0){
+            System.out.println(this.createTable());
+        }
+        System.out.println(model.insertTable(tblName, params));
+        return model.closeConnect();
+    }
+    
+    public DefaultTableModel getAllTableConsumeInDB(){
+        return model.searchAllTable(tblName);
     }
 }

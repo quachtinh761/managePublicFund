@@ -6,6 +6,7 @@
 package model;
 
 import common.function.encryptMd5;
+import common.function.handleString;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -29,7 +30,7 @@ import org.apache.derby.jdbc.EmbeddedDriver;
  */
 public class DBTemplate {
     private String dbName;
-    private final String LOCATEDB_STRING = encryptMd5.getStringMd5("data");
+    private final String LOCATEDB_STRING = "src/" + encryptMd5.getStringMd5("data");
     private final Driver DERBYEMBEDDED_DRIVER = new EmbeddedDriver();
     private Connection conn;
     private static Statement st = null;
@@ -37,7 +38,7 @@ public class DBTemplate {
     private static DefaultTableModel model = new DefaultTableModel();
 
     public DBTemplate(String dbName) {
-        this.dbName = dbName;
+        this.dbName = dbName.toUpperCase();
     }
     
     public String getDbName(){
@@ -48,7 +49,7 @@ public class DBTemplate {
         try {
             DriverManager.registerDriver(DERBYEMBEDDED_DRIVER);
             conn = DriverManager.getConnection("jdbc:derby:" + LOCATEDB_STRING + ";create=true;user=admin;password=admin");
-            conn.setAutoCommit(false);
+            //conn.setAutoCommit(false);
             st = conn.createStatement();
             return true;
         } catch (SQLException ex) {
@@ -59,7 +60,15 @@ public class DBTemplate {
     
     public boolean closeConnect(){
         try {
-            conn.close();
+            if (conn != null){
+                conn.close();
+            }
+            if (st != null){
+                st.close();
+            }
+            if (rs != null){
+                rs.close();
+            }
             return true;
         } catch (SQLException ex) {
             return false;
@@ -77,14 +86,14 @@ public class DBTemplate {
     public boolean createTable(String tableName, Map<String, String> params){
         try {
             String CREATE_TABLE = "";
-            if (searchAllTable(tableName).getRowCount() > 0){
-                    return false;
+            if (searchAllTable(tableName.toUpperCase()).getRowCount() > 0){
+                    return true;
             }
-            CREATE_TABLE += "CREATE TABLE " + encryptMd5.getStringMd5(tableName)  + "(";
+            CREATE_TABLE += "CREATE TABLE N" + tableName.toUpperCase() + "(";
             CREATE_TABLE = params.entrySet().stream().map((entry) -> entry.getKey() + " " + entry.getValue() + ",").reduce(CREATE_TABLE, String::concat);
             if (CREATE_TABLE.endsWith(",")){
                 CREATE_TABLE = CREATE_TABLE.substring(0, CREATE_TABLE.length() - 1);
-                CREATE_TABLE += "); ";
+                CREATE_TABLE += ") ";
             }else{
                 return false;
             }
@@ -94,6 +103,11 @@ public class DBTemplate {
             System.out.println(ex);
             return false;
         }
+        return true;
+    }
+    
+    private boolean checkTableExist(String tableName){
+        String sql = "";
         return true;
     }
     
@@ -107,11 +121,11 @@ public class DBTemplate {
      **/
     public String insertTable(String tableName, Map<String, String> params) {
         //Open connection to write data
-        String sql = "INSERT INTO @" + encryptMd5.getStringMd5(tableName) + "(";
+        String sql = "INSERT INTO N" + tableName.toUpperCase() + "(";
         String key = "", value = "";
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            key += "'" + entry.getKey() + "',";
-            value += "'" + entry.getValue() + "',";
+            key += entry.getKey() + ",";
+            value += "'" + handleString.encodeString(entry.getValue()) + "',";
         }
         if (key.endsWith(",")){
             key = key.substring(0, key.length() - 1);
@@ -123,46 +137,48 @@ public class DBTemplate {
             return "1";
         }
         sql += key + ") VALUES (" + value + ")";
-        JOptionPane.showMessageDialog(null, sql);
+        System.out.println(sql);
         
         try {
-            st = conn.createStatement();
             st.execute(sql);
+            System.out.println(this.searchAllTable(tableName.toUpperCase()).getRowCount());
             return "OK";
         }catch (SQLException e){
-            System.err.println(e.getCause());
+            System.out.println(e.getCause());
             return e.toString();
         }
     }
     
-    public static DefaultTableModel searchAllTable(String tableName){
+    public DefaultTableModel searchAllTable(String tableName){
         Vector header = new Vector();
-        header.add("MaSP");
-        header.add("Tên SP");
+        header.add("ID");
+        header.add("Date input");
+        header.add("Amount");
+        header.add("Content");
         model = new DefaultTableModel(header, 0);
         try {
-            String sql = "SELECT * FROM " + tableName + " WHERE 1 = 1;";
+            String sql = "SELECT * FROM N" + tableName.toUpperCase() + " WHERE 1 = 1";
             rs = st.executeQuery(sql);
+            int colCount = rs.getMetaData().getColumnCount();
             while (rs.next())
             {
                 Vector row = new Vector();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
+                for (int i = 1; i <= colCount; i++){
+                    row.add(handleString.decodeString(rs.getString(i)));
+                }
                 model.addRow(row);
             }
+            System.out.println(sql);
         }catch (Exception e){
+            System.out.println(e);
         }
         return model;
     }
     
     public void runQuery(String sql){
         try {
-            st = conn.createStatement();
-        } catch (SQLException ex) {
-            System.out.println(ex + "1");
-        }
-        try {
             st.executeUpdate(sql);
+            this.closeConnect();
         } catch (SQLException ex) {
             System.out.println(st == null);
         }

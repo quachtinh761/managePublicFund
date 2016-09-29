@@ -5,6 +5,7 @@
  */
 package layout;
 
+import controller.consumeController;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,11 +14,14 @@ import javax.swing.JOptionPane;
  */
 public class HistoryLayout extends javax.swing.JFrame {
 
+    private consumeController consumeControl = new consumeController();
     /**
      * Creates new form HistoryLayout
      */
     public HistoryLayout() {
         initComponents();
+        tblHistory.setModel(consumeControl.getAllTableConsumeInDB());
+        
     }
 
     /**
@@ -111,13 +115,12 @@ public class HistoryLayout extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblTitleSite, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(153, 153, 153))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(203, 203, 203)
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -175,6 +178,7 @@ public class HistoryLayout extends javax.swing.JFrame {
 
     private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
         // TODO add your handling code here:
+        consumeControl.closeConnect();
         this.setVisible(false);
         dispose();
         HomeLayout.run();

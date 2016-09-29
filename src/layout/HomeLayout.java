@@ -249,14 +249,11 @@ public class HomeLayout extends javax.swing.JFrame {
             if (result.equals("")){
                 JOptionPane.showMessageDialog(null, "Success!");
             }else{
-                if (result.endsWith(",")){
-                    result = result.substring(0, result.length() - 1);
-                }
-                String[] errList = result.split(",");
+                JOptionPane.showMessageDialog(null, result);
             }
+            System.out.println(result);
         }catch(Exception ex){
             System.out.println(ex);
-            JOptionPane.showMessageDialog(null, "Sorry! Your date input is not correct! Please input correct data.");
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
@@ -274,6 +271,7 @@ public class HomeLayout extends javax.swing.JFrame {
     private void btnViewHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnViewHistoryMouseClicked
         // TODO add your handling code here:
         //this.switchAddToHistory();
+        consumeControl.closeConnect();
         this.setVisible(false);
         dispose();
         HistoryLayout.main(null);

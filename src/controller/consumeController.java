@@ -4,10 +4,12 @@
  * and open the template in the editor.
  */
 package controller;
+import common.constant.getErrMsg;
 import common.function.dateTimeHandle;
 import java.text.ParseException;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.consumeModel;
 import object.consumeObject;
 
@@ -18,6 +20,14 @@ import object.consumeObject;
 public class consumeController {
     private consumeObject conObject;
     private final consumeModel conModel = new consumeModel();
+    
+    public void getConnect(){
+        conModel.getConnect();
+    }
+    
+    public void closeConnect(){
+        conModel.closeConnect();
+    }
     
     public String addConsume(Date date, String amount, String content){
         String result = "";
@@ -37,7 +47,7 @@ public class consumeController {
         //date current
         int daNo = Integer.parseInt(dateTimeHandle.getDateFormat(new Date(), "yyyyMMdd"));
         if (da > daNo){
-            return "date,";
+            return getErrMsg.errMsgInvalidDate;
         }else{
             return "";
         }
@@ -47,12 +57,16 @@ public class consumeController {
         try{
             Integer.parseInt(amount);
         }catch (Exception e){
-            return "amount,";
+            return getErrMsg.errMsgNullAmount;
         }
         return "";
     }
     
     private String checkContent(String content){
-        return (content.equals("")) ? "content," : "";
+        return (content.equals("")) ? getErrMsg.errMsgNullContent : "";
+    }
+    
+    public DefaultTableModel getAllTableConsumeInDB(){
+        return conModel.getAllTableConsumeInDB();
     }
 }
