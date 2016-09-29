@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,7 +90,7 @@ public class DBTemplate {
             if (searchAllTable(tableName.toUpperCase()).getRowCount() > 0){
                     return true;
             }
-            CREATE_TABLE += "CREATE TABLE N" + tableName.toUpperCase() + "(";
+            CREATE_TABLE += "CREATE TABLE N" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
             CREATE_TABLE = params.entrySet().stream().map((entry) -> entry.getKey() + " " + entry.getValue() + ",").reduce(CREATE_TABLE, String::concat);
             if (CREATE_TABLE.endsWith(",")){
                 CREATE_TABLE = CREATE_TABLE.substring(0, CREATE_TABLE.length() - 1);
@@ -97,7 +98,6 @@ public class DBTemplate {
             }else{
                 return false;
             }
-            System.out.println(CREATE_TABLE);
             st.execute(CREATE_TABLE);
         }catch (Exception ex){
             System.out.println(ex);
@@ -121,7 +121,7 @@ public class DBTemplate {
      **/
     public String insertTable(String tableName, Map<String, String> params) {
         //Open connection to write data
-        String sql = "INSERT INTO N" + tableName.toUpperCase() + "(";
+        String sql = "INSERT INTO N" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
         String key = "", value = "";
         for (Map.Entry<String, String> entry : params.entrySet()) {
             key += entry.getKey() + ",";
@@ -141,7 +141,7 @@ public class DBTemplate {
         
         try {
             st.execute(sql);
-            System.out.println(this.searchAllTable(tableName.toUpperCase()).getRowCount());
+            System.out.println(this.searchAllTable(encryptMd5.getStringMd5(tableName.toUpperCase())).getRowCount());
             return "OK";
         }catch (SQLException e){
             System.out.println(e.getCause());
@@ -157,7 +157,7 @@ public class DBTemplate {
         header.add("Content");
         model = new DefaultTableModel(header, 0);
         try {
-            String sql = "SELECT * FROM N" + tableName.toUpperCase() + " WHERE 1 = 1";
+            String sql = "SELECT * FROM N" + encryptMd5.getStringMd5(tableName.toUpperCase()) + " WHERE 1 = 1";
             rs = st.executeQuery(sql);
             int colCount = rs.getMetaData().getColumnCount();
             while (rs.next())
