@@ -14,13 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import object.consumeObject;
+import model.DBTemplate;
 
 /**
  *
  * @author Nguyen Van Tinh
  */
 public class consumeModel {
-    private final String tblName = "consumeTable";
+    private final String tblName = "vothidaiguong";
     DBTemplate model = new DBTemplate(tblName);
     
     public consumeModel(){
@@ -36,6 +37,14 @@ public class consumeModel {
         model.closeConnect();
     }
     
+    public boolean checkExistTable(){
+        if(model.isTableExist(tblName)==true){
+            return createTable();
+        }else{
+            return false;
+        }
+    }
+    
     public boolean createTable(){
         Map<String, String> params= new HashMap();
         params.put(consumeConstant.KEY_ID, consumeConstant.KEY_ID_TYPE);
@@ -43,12 +52,13 @@ public class consumeModel {
         params.put(consumeConstant.KEY_AMOUNT, consumeConstant.KEY_AMOUNT_TYPE);
         params.put(consumeConstant.KEY_CONTENT, consumeConstant.KEY_CONTENT_TYPE);
         return model.createTable(tblName, params);
+        
     }
     
     public boolean addNew(consumeObject consume){
         Map<String, String> params= new HashMap();
-        params.put(consumeConstant.KEY_ID, dateTimeHandle.getDateFormat(new Date(), "yyyyMMddhhmm"));
-        params.put(consumeConstant.KEY_DATE, dateTimeHandle.getDateFormat(consume.getDate(), "yyyyMMddhhmm"));
+        params.put(consumeConstant.KEY_ID, dateTimeHandle.getDateFormat(new Date(), "yyyyMMddHHmmssa"));
+        params.put(consumeConstant.KEY_DATE, dateTimeHandle.getDateFormat(consume.getDate(), "yyyyMMddHHmmssa"));
         params.put(consumeConstant.KEY_AMOUNT, Integer.toString(consume.getAmount()));
         params.put(consumeConstant.KEY_CONTENT, consume.getContent());
         
