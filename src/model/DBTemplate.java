@@ -8,6 +8,7 @@ package model;
 import common.function.encryptMd5;
 import common.function.handleString;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -87,10 +88,10 @@ public class DBTemplate {
     public boolean createTable(String tableName, Map<String, String> params){
         try {
             String CREATE_TABLE = "";
-            if (searchAllTable(tableName.toUpperCase()).getRowCount() > 0){
+            if (searchAllTable(encryptMd5.getStringMd5(tableName.toUpperCase())).getRowCount() > 0){
                     return true;
             }
-            CREATE_TABLE += "CREATE TABLE N" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
+            CREATE_TABLE += "CREATE TABLE n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
             CREATE_TABLE = params.entrySet().stream().map((entry) -> entry.getKey() + " " + entry.getValue() + ",").reduce(CREATE_TABLE, String::concat);
             if (CREATE_TABLE.endsWith(",")){
                 CREATE_TABLE = CREATE_TABLE.substring(0, CREATE_TABLE.length() - 1);
@@ -100,16 +101,30 @@ public class DBTemplate {
             }
             st.execute(CREATE_TABLE);
         }catch (Exception ex){
-            System.out.println(ex);
+            //System.out.println(ex);
             return false;
         }
         return true;
     }
     
-    private boolean checkTableExist(String tableName){
-        String sql = "";
-        return true;
+    public boolean isTableExist(String tableName) {
+        try{
+        DatabaseMetaData dbmd = conn.getMetaData();
+        ResultSet tables = dbmd.getTables(null, null, "n11d29e12ec875f084ef03889293d063e",null);
+        if(tables.next())
+        {
+            JOptionPane.showMessageDialog(null, "table is exist");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }catch(Exception e){
+        return false;
     }
+}
+
     
     /**
      * Map <String, String> params = new HashMap<String,String>();
@@ -121,7 +136,7 @@ public class DBTemplate {
      **/
     public String insertTable(String tableName, Map<String, String> params) {
         //Open connection to write data
-        String sql = "INSERT INTO N" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
+        String sql = "INSERT INTO n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
         String key = "", value = "";
         for (Map.Entry<String, String> entry : params.entrySet()) {
             key += entry.getKey() + ",";
@@ -157,7 +172,7 @@ public class DBTemplate {
         header.add("Content");
         model = new DefaultTableModel(header, 0);
         try {
-            String sql = "SELECT * FROM N" + encryptMd5.getStringMd5(tableName.toUpperCase()) + " WHERE 1 = 1";
+            String sql = "SELECT * FROM n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + " WHERE 1 = 1";
             rs = st.executeQuery(sql);
             int colCount = rs.getMetaData().getColumnCount();
             while (rs.next())
@@ -173,6 +188,16 @@ public class DBTemplate {
             System.out.println(e);
         }
         return model;
+    }
+    
+     public boolean deleteTable(String tableName,  String condition){
+        try{
+            String sql = "DELETE * FROM n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "WHERE" + condition;
+            st.executeQuery(sql);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
     
     public void runQuery(String sql){
