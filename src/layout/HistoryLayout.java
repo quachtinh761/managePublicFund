@@ -7,6 +7,7 @@ package layout;
 
 import controller.consumeController;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,13 +16,14 @@ import javax.swing.JOptionPane;
 public class HistoryLayout extends javax.swing.JFrame {
 
     private consumeController consumeControl = new consumeController();
+    private DefaultTableModel data = consumeControl.getAllTableConsumeInDB();
     /**
      * Creates new form HistoryLayout
      */
     public HistoryLayout() {
         initComponents();
-        tblHistory.setModel(consumeControl.getAllTableConsumeInDB());
-        
+        tblHistory.setModel(data);
+        btnEdit.setVisible(false);
     }
 
     /**
@@ -37,13 +39,15 @@ public class HistoryLayout extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         lblTitleSite = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        lblConsume = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHistory = new javax.swing.JTable();
-        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 204));
         setPreferredSize(new java.awt.Dimension(775, 346));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setForeground(new java.awt.Color(51, 0, 153));
@@ -74,6 +78,20 @@ public class HistoryLayout extends javax.swing.JFrame {
             }
         });
 
+        btnEdit.setBackground(new java.awt.Color(51, 255, 102));
+        btnEdit.setFont(new java.awt.Font("DigifaceWide", 2, 18)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(51, 0, 255));
+        btnEdit.setText("Edit");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditMouseClicked(evt);
+            }
+        });
+
+        lblConsume.setFont(new java.awt.Font("Urdu Typesetting", 2, 18)); // NOI18N
+        lblConsume.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblConsume.setBorder(new javax.swing.border.MatteBorder(null));
+
         tblHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -92,39 +110,26 @@ public class HistoryLayout extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblHistory);
 
-        btnEdit.setBackground(new java.awt.Color(51, 255, 102));
-        btnEdit.setFont(new java.awt.Font("DigifaceWide", 2, 18)); // NOI18N
-        btnEdit.setForeground(new java.awt.Color(51, 0, 255));
-        btnEdit.setText("Edit");
-        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEditMouseClicked(evt);
-            }
-        });
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblTitleSite, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(153, 153, 153))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(190, 190, 190)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(203, 203, 203)
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40))))
+                        .addGap(214, 214, 214)
+                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblConsume, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(lblTitleSite, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,23 +141,24 @@ public class HistoryLayout extends javax.swing.JFrame {
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblConsume, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
         );
 
         pack();
@@ -162,23 +168,37 @@ public class HistoryLayout extends javax.swing.JFrame {
     private void tblHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHistoryMousePressed
         // TODO add your handling code here:
         int index = tblHistory.getSelectedRow();
-        JOptionPane.showMessageDialog(null, tblHistory.getModel().getColumnCount());
-        /*if (index >= 0 && tblHistory.getModel() != null){
-            String d = tblHistory.getModel().getValueAt(index, 0).toString();
-            String am = tblHistory.getModel().getValueAt(index, 1).toString();
-            String con = tblHistory.getModel().getValueAt(index, 2).toString();
-            conObject = new consumeObject(d, am, con);
-            this.setInfo(conObject);
-        }*/
+        if (index >= 0 && tblHistory.getModel().getValueAt(index, 0) != null){
+            String d = tblHistory.getModel().getValueAt(index, 1).toString();
+            String am = tblHistory.getModel().getValueAt(index, 2).toString();
+            String con = tblHistory.getModel().getValueAt(index, 3).toString();
+            String consume = "On " + d + ":   ";
+            consume += "Spent " + am + " vnd for \"" + con + "\""; 
+            lblConsume.setText(consume);
+            btnEdit.setVisible(true);
+        }else{
+            btnEdit.setVisible(false);
+        }
     }//GEN-LAST:event_tblHistoryMousePressed
 
     private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
         // TODO add your handling code here:
+        int index = tblHistory.getSelectedRow();
+        if (index >= 0 && tblHistory.getModel().getValueAt(index, 0) != null){
+            String id = tblHistory.getModel().getValueAt(index, 0).toString();
+            String d = tblHistory.getModel().getValueAt(index, 1).toString();
+            String am = tblHistory.getModel().getValueAt(index, 2).toString();
+            String con = tblHistory.getModel().getValueAt(index, 3).toString();
+            this.setVisible(false);
+            dispose();
+            EditLayout.main(new String[]{id, d, am, con});
+        }else{
+            JOptionPane.showMessageDialog(null, "There is no row selected to edit.");
+        }
     }//GEN-LAST:event_btnEditMouseClicked
 
     private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
         // TODO add your handling code here:
-        consumeControl.closeConnect();
         this.setVisible(false);
         dispose();
         HomeLayout.run();
@@ -188,10 +208,6 @@ public class HistoryLayout extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnExitMouseClicked
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,6 +250,7 @@ public class HistoryLayout extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblConsume;
     private javax.swing.JLabel lblTitleSite;
     private javax.swing.JTable tblHistory;
     // End of variables declaration//GEN-END:variables

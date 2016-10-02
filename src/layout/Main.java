@@ -5,12 +5,7 @@
  */
 package layout;
 
-import common.constant.consumeConstant;
-import common.function.encryptMd5;
-import java.util.HashMap;
-import java.util.Map;
 import model.DBTemplate;
-import model.consumeModel;
 
 /**
  *
@@ -24,12 +19,24 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         HomeLayout.run();
-        //consumeModel con = new consumeModel();
-        //con.getConnect();
-        //con.createTable();
+        DBTemplate db = new DBTemplate();
+        db.getConnect();
+        /*consumeModel con = new consumeModel();
+        con.getConnect();
+        con.createTable();*/
         //System.out.println(con.getAllTableConsumeInDB().getRowCount());
         //con.closeConnect();
         //
+        
+        /*String tblName = "abc";
+        DBTemplate db = new DBTemplate(tblName);
+        db.getConnect();
+        List < String[] > params = new ArrayList();
+        params.add(new String[]{consumeConstant.KEY_ID, consumeConstant.KEY_ID_TYPE});
+        params.add(new String[]{consumeConstant.KEY_DATE, consumeConstant.KEY_DATE_TYPE});
+        db.createTable(tblName, params);*/
+        
+        
     }
     
     

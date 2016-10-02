@@ -6,9 +6,7 @@
 package controller;
 import common.constant.getErrMsg;
 import common.function.dateTimeHandle;
-import java.text.ParseException;
 import java.util.Date;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.consumeModel;
 import object.consumeObject;
@@ -45,8 +43,10 @@ public class consumeController {
         //date input
         int da = Integer.parseInt(dateTimeHandle.getDateFormat(date, "yyyyMMdd"));
         //date current
-        int daNo = Integer.parseInt(dateTimeHandle.getDateFormat(new Date(), "yyyyMMdd"));
-        if (da > daNo){
+        int daNow = Integer.parseInt(dateTimeHandle.getDateFormat(new Date(), "yyyyMMdd"));
+        //after 1 minute
+        if (da > daNow + 60){
+            System.out.println(da + "|" + daNow);
             return getErrMsg.errMsgInvalidDate;
         }else{
             return "";
@@ -62,11 +62,26 @@ public class consumeController {
         return "";
     }
     
+    public String updateConsume(String date, String amount, String content){
+        return "";
+    }
+    
     private String checkContent(String content){
         return (content.equals("")) ? getErrMsg.errMsgNullContent : "";
     }
     
     public DefaultTableModel getAllTableConsumeInDB(){
+        int id = 0, date = 1, amount = 2, content = 3;
+        DefaultTableModel temp = conModel.getAllTableConsumeInDB();
+        DefaultTableModel result = new DefaultTableModel();
+        result.setColumnCount(temp.getColumnCount());
+        result.setRowCount(temp.getRowCount());
+        for (int i = 0; i < temp.getRowCount(); i++){
+            result.setValueAt(temp, i, id);
+            result.setValueAt("", i, date);
+            result.setValueAt("", i, amount);
+            result.setValueAt("", i, content);
+        }
         return conModel.getAllTableConsumeInDB();
     }
 }

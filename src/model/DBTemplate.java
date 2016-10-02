@@ -8,20 +8,14 @@ package model;
 import common.function.encryptMd5;
 import common.function.handleString;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.derby.jdbc.EmbeddedDriver;
@@ -31,21 +25,13 @@ import org.apache.derby.jdbc.EmbeddedDriver;
  * @author Nguyen Van Tinh
  */
 public class DBTemplate {
-    private String dbName;
     private final String LOCATEDB_STRING = "src/" + encryptMd5.getStringMd5("data");
     private final Driver DERBYEMBEDDED_DRIVER = new EmbeddedDriver();
     private Connection conn;
     private static Statement st = null;
     private static ResultSet rs = null;
     private static DefaultTableModel model = new DefaultTableModel();
-
-    public DBTemplate(String dbName) {
-        this.dbName = dbName.toUpperCase();
-    }
-    
-    public String getDbName(){
-        return this.dbName;
-    }
+    private final int name = 0, type = 1;
     
     public boolean getConnect(){
         try {
@@ -53,6 +39,7 @@ public class DBTemplate {
             conn = DriverManager.getConnection("jdbc:derby:" + LOCATEDB_STRING + ";create=true;user=admin;password=admin");
             //conn.setAutoCommit(false);
             st = conn.createStatement();
+            System.out.println("model.DBTemplate.getConnect() success");
             return true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -85,14 +72,16 @@ public class DBTemplate {
      * params.put("fieldName2","filedType2 (not null)");
      * @return boolean
      **/
-    public boolean createTable(String tableName, Map<String, String> params){
+    public boolean createTable(String tableName, List < String[] > params){
         try {
             String CREATE_TABLE = "";
-            if (searchAllTable(encryptMd5.getStringMd5(tableName.toUpperCase())).getRowCount() > 0){
-                    return true;
+            if ( this.isTableExist(tableName) ){
+                return true;
             }
             CREATE_TABLE += "CREATE TABLE n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
-            CREATE_TABLE = params.entrySet().stream().map((entry) -> entry.getKey() + " " + entry.getValue() + ",").reduce(CREATE_TABLE, String::concat);
+            for (int i = 0; i < params.size(); i++){
+                CREATE_TABLE += params.get(i)[name] + " " + params.get(i)[type] + ",";
+            }
             if (CREATE_TABLE.endsWith(",")){
                 CREATE_TABLE = CREATE_TABLE.substring(0, CREATE_TABLE.length() - 1);
                 CREATE_TABLE += ") ";
@@ -100,8 +89,9 @@ public class DBTemplate {
                 return false;
             }
             st.execute(CREATE_TABLE);
+            System.out.println("model.DBTemplate.createTable() success");
         }catch (Exception ex){
-            //System.out.println(ex);
+            System.out.println(ex);
             return false;
         }
         return true;
@@ -109,20 +99,13 @@ public class DBTemplate {
     
     public boolean isTableExist(String tableName) {
         try{
-        DatabaseMetaData dbmd = conn.getMetaData();
-        ResultSet tables = dbmd.getTables(null, null, "n11d29e12ec875f084ef03889293d063e",null);
-        if(tables.next())
-        {
-            JOptionPane.showMessageDialog(null, "table is exist");
+            String sql = "SELECT * FROM n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + " WHERE 1 = 1";
+            rs = st.executeQuery(sql);
+        }catch(SQLException e){
+            //System.out.println(e);
             return false;
         }
-        else
-        {
-            return true;
-        }
-    }catch(Exception e){
-        return false;
-    }
+        return true;
 }
 
     
@@ -134,7 +117,7 @@ public class DBTemplate {
      * @param params
      * @return 
      **/
-    public String insertTable(String tableName, Map<String, String> params) {
+    public boolean insertTable(String tableName, Map<String, String> params) {
         //Open connection to write data
         String sql = "INSERT INTO n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "(";
         String key = "", value = "";
@@ -149,18 +132,18 @@ public class DBTemplate {
             value = value.substring(0, value.length() - 1);
         }
         if (params.isEmpty()){
-            return "1";
+            return false;
         }
         sql += key + ") VALUES (" + value + ")";
         System.out.println(sql);
         
         try {
             st.execute(sql);
-            System.out.println(this.searchAllTable(encryptMd5.getStringMd5(tableName.toUpperCase())).getRowCount());
-            return "OK";
+            //System.out.println(this.searchAllTable(encryptMd5.getStringMd5(tableName.toUpperCase())).getRowCount());
+            return true;
         }catch (SQLException e){
             System.out.println(e.getCause());
-            return e.toString();
+            return false;
         }
     }
     
@@ -183,7 +166,6 @@ public class DBTemplate {
                 }
                 model.addRow(row);
             }
-            System.out.println(sql);
         }catch (Exception e){
             System.out.println(e);
         }

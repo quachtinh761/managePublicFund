@@ -5,7 +5,6 @@
  */
 package layout;
 
-import common.function.dateTimeHandle;
 import controller.consumeController;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -23,13 +22,12 @@ public class HomeLayout extends javax.swing.JFrame {
     public HomeLayout() {
         initComponents();
         this.btnSetTodayMouseClicked(null);
-        btnBack.setVisible(false);
     }
     
     final private int modeAddNew = 0,
             modeView = 1;
     private int modeCurrent = modeAddNew;
-    private consumeController consumeControl = new consumeController();
+    private final consumeController consumeControl = new consumeController();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,7 +52,7 @@ public class HomeLayout extends javax.swing.JFrame {
         lblUnit = new javax.swing.JLabel();
         panelTitle = new javax.swing.JPanel();
         lblTitleSite = new javax.swing.JLabel();
-        btnBack = new javax.swing.JButton();
+        lblFundRemain = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FUND MANAGEMENT");
@@ -133,26 +131,21 @@ public class HomeLayout extends javax.swing.JFrame {
         lblTitleSite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitleSite.setText("Add new consume");
 
-        btnBack.setBackground(new java.awt.Color(51, 255, 102));
-        btnBack.setFont(new java.awt.Font("DigifaceWide", 2, 18)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(51, 0, 255));
-        btnBack.setLabel("Back");
-        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBackMouseClicked(evt);
-            }
-        });
+        lblFundRemain.setFont(new java.awt.Font("Tahoma", 2, 24)); // NOI18N
+        lblFundRemain.setForeground(new java.awt.Color(255, 0, 0));
+        lblFundRemain.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFundRemain.setText("Remaining amount: ");
 
         javax.swing.GroupLayout panelTitleLayout = new javax.swing.GroupLayout(panelTitle);
         panelTitle.setLayout(panelTitleLayout);
         panelTitleLayout.setHorizontalGroup(
             panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTitleLayout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(lblTitleSite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addGap(46, 46, 46)
+                .addComponent(lblTitleSite, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addComponent(lblFundRemain, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         panelTitleLayout.setVerticalGroup(
             panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,49 +153,49 @@ public class HomeLayout extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitleSite)
-                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                    .addComponent(lblFundRemain))
+                .addGap(23, 23, 23))
         );
+
+        lblFundRemain.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout panelCenterLayout = new javax.swing.GroupLayout(panelCenter);
         panelCenter.setLayout(panelCenterLayout);
         panelCenterLayout.setHorizontalGroup(
             panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCenterLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCenterLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(panelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblAmount)
+                    .addComponent(lblContent)
+                    .addComponent(lblDate))
+                .addGap(18, 18, 18)
+                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCenterLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAmount)
-                            .addComponent(lblContent)
-                            .addComponent(lblDate))
+                        .addComponent(pickerDate, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(btnSetToday, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContent, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelCenterLayout.createSequentialGroup()
+                        .addComponent(btnViewHistory)
+                        .addGap(77, 77, 77)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelCenterLayout.createSequentialGroup()
+                        .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelCenterLayout.createSequentialGroup()
-                                .addComponent(pickerDate, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38)
-                                .addComponent(btnSetToday, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtContent, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelCenterLayout.createSequentialGroup()
-                                .addComponent(btnViewHistory)
-                                .addGap(77, 77, 77)
-                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(86, 86, 86)
-                                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelCenterLayout.createSequentialGroup()
-                                .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblUnit)))
-                        .addGap(0, 13, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(lblUnit)))
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(panelCenterLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(panelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCenterLayout.setVerticalGroup(
             panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCenterLayout.createSequentialGroup()
-                .addComponent(panelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDate)
@@ -271,23 +264,10 @@ public class HomeLayout extends javax.swing.JFrame {
     private void btnViewHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnViewHistoryMouseClicked
         // TODO add your handling code here:
         //this.switchAddToHistory();
-        consumeControl.closeConnect();
         this.setVisible(false);
         dispose();
         HistoryLayout.main(null);
     }//GEN-LAST:event_btnViewHistoryMouseClicked
-
-    private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
-        // TODO add your handling code here:
-        switch (this.modeCurrent){
-            case modeView:
-            break;
-            case modeAddNew:
-            break;
-            default:
-            break;
-        }
-    }//GEN-LAST:event_btnBackMouseClicked
 
     private void setInfo(consumeObject ob){
         pickerDate.setDate(ob.getDate());
@@ -330,13 +310,13 @@ public class HomeLayout extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnSetToday;
     private javax.swing.JButton btnViewHistory;
     private javax.swing.JLabel lblAmount;
     private javax.swing.JLabel lblContent;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblFundRemain;
     private javax.swing.JLabel lblTitleSite;
     private javax.swing.JLabel lblUnit;
     private javax.swing.JPanel panelCenter;

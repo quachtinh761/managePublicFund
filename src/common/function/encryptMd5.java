@@ -8,9 +8,6 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.security.*;
 
-/**
- * Created by Nguyen Van Tinh on 25/09/2016.
- */
 public class encryptMd5 {
     private static MessageDigest md;
     
@@ -26,7 +23,6 @@ public class encryptMd5 {
         } catch (Exception e) {
             System.err.println(e);
             return getStringMd5("");
-            
         }
     }
 

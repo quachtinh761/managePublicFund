@@ -7,25 +7,24 @@ package model;
 
 import common.constant.consumeConstant;
 import common.function.dateTimeHandle;
-import java.sql.Connection;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import object.consumeObject;
-import model.DBTemplate;
 
 /**
  *
  * @author Nguyen Van Tinh
  */
-public class consumeModel {
-    private final String tblName = "vothidaiguong";
-    DBTemplate model = new DBTemplate(tblName);
+public final class consumeModel {
+    private final String tblName = "consumeTable";
+    DBTemplate model = new DBTemplate();
     
     public consumeModel(){
-        model.getConnect();
+        //this.getConnect();
         //this.createTable();
     }
     
@@ -37,37 +36,27 @@ public class consumeModel {
         model.closeConnect();
     }
     
-    public boolean checkExistTable(){
-        if(model.isTableExist(tblName)==true){
-            return createTable();
-        }else{
-            return false;
-        }
-    }
-    
     public boolean createTable(){
-        Map<String, String> params= new HashMap();
-        params.put(consumeConstant.KEY_ID, consumeConstant.KEY_ID_TYPE);
-        params.put(consumeConstant.KEY_DATE, consumeConstant.KEY_DATE_TYPE);
-        params.put(consumeConstant.KEY_AMOUNT, consumeConstant.KEY_AMOUNT_TYPE);
-        params.put(consumeConstant.KEY_CONTENT, consumeConstant.KEY_CONTENT_TYPE);
+        List < String[] > params = new ArrayList();
+        params.add(new String[]{consumeConstant.KEY_ID, consumeConstant.KEY_ID_TYPE});
+        params.add(new String[]{consumeConstant.KEY_DATE, consumeConstant.KEY_DATE_TYPE});
+        params.add(new String[]{consumeConstant.KEY_AMOUNT, consumeConstant.KEY_AMOUNT_TYPE});
+        params.add(new String[]{consumeConstant.KEY_CONTENT, consumeConstant.KEY_CONTENT_TYPE});
         return model.createTable(tblName, params);
         
     }
     
     public boolean addNew(consumeObject consume){
         Map<String, String> params= new HashMap();
-        params.put(consumeConstant.KEY_ID, dateTimeHandle.getDateFormat(new Date(), "yyyyMMddHHmmssa"));
-        params.put(consumeConstant.KEY_DATE, dateTimeHandle.getDateFormat(consume.getDate(), "yyyyMMddHHmmssa"));
+        params.put(consumeConstant.KEY_ID, dateTimeHandle.getDateFormat(new Date(), "yyyyMMddHHmm"));
+        params.put(consumeConstant.KEY_DATE, dateTimeHandle.getDateFormat(consume.getDate(), "yyyy-MM-dd"));
         params.put(consumeConstant.KEY_AMOUNT, Integer.toString(consume.getAmount()));
         params.put(consumeConstant.KEY_CONTENT, consume.getContent());
         
-        System.out.println(getAllTableConsumeInDB().getRowCount());
-        if (getAllTableConsumeInDB().getRowCount() == 0){
-            System.out.println(this.createTable());
+        if (!model.isTableExist(tblName)){
+            this.createTable();
         }
-        System.out.println(model.insertTable(tblName, params));
-        return model.closeConnect();
+        return model.insertTable(tblName, params);
     }
     
     public DefaultTableModel getAllTableConsumeInDB(){

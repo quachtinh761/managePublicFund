@@ -10,16 +10,16 @@ package common.constant;
  * @author Nguyen Van Tinh
  */
 public class consumeConstant {
-    public static String KEY_ID = "id",
+    public final static String KEY_ID = "id",
             KEY_DATE = "dateInput",
             KEY_AMOUNT = "amount",
             KEY_CONTENT = "content";
-    public static String KEY_ID_TYPE = "VARCHAR(30) PRIMARY KEY NOT NULL",
-            KEY_DATE_TYPE = "VARCHAR(30) NOT NULL",
-            KEY_AMOUNT_TYPE = "VARCHAR(30)",
-            KEY_CONTENT_TYPE = "CLOB (10K)";
-    public static int ID = 0,
-            DATE = 1,
-            AMOUNT = 2,
-            CONTENT = 3;
+    public final static String KEY_ID_TYPE = "VARCHAR(40) PRIMARY KEY NOT NULL",
+            KEY_DATE_TYPE = "VARCHAR(40) NOT NULL",
+            KEY_AMOUNT_TYPE = "VARCHAR(40)",
+            KEY_CONTENT_TYPE = "CLOB (2K)";
+    public final static int AMOUNT_INDEX = 0,
+            ID_INDEX = 1,
+            DATE_INDEX = 2,
+            CONTENT_INDEX = 3;
 }
