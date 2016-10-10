@@ -5,15 +5,18 @@
  */
 package layout;
 
+import common.constant.consumeConstant;
 import controller.consumeController;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Nguyen Van Tinh
  */
 public class EditLayout extends javax.swing.JFrame {
-
-    private consumeController consumeControl = new consumeController();
+    private String type = consumeConstant.TYPE_CONSUME;
+    private consumeController consumeControl = new consumeController(type);
     private String id = "", date = "", amount = "", content = "";
     /**
      * Creates new form EditLayout
@@ -26,6 +29,7 @@ public class EditLayout extends javax.swing.JFrame {
             date = con[1];
             amount = con[2];
             content = con[3];
+            type = con.length > 3 ? con[4] : consumeConstant.TYPE_CONSUME;
         }catch(Exception ex){
         }
         this.setLayoutContent();
@@ -181,10 +185,7 @@ public class EditLayout extends javax.swing.JFrame {
 
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
         //String date = pickerDate.getDate();
-        try{
-        }catch(Exception ex){
-            System.out.println(ex);
-        }
+        consumeControl.updateConsume(this.id, this.date, txtAmount.getText(), txtContent.getText(), this.type);
     }//GEN-LAST:event_btnSaveMouseClicked
 
     private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked

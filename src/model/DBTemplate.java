@@ -107,7 +107,6 @@ public class DBTemplate {
         }
         return true;
 }
-
     
     /**
      * Map <String, String> params = new HashMap<String,String>();
@@ -172,7 +171,7 @@ public class DBTemplate {
         return model;
     }
     
-     public boolean deleteTable(String tableName,  String condition){
+    public boolean deleteTable(String tableName,  String condition){
         try{
             String sql = "DELETE * FROM n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + "WHERE" + condition;
             st.executeQuery(sql);
@@ -185,9 +184,35 @@ public class DBTemplate {
     public void runQuery(String sql){
         try {
             st.executeUpdate(sql);
-            this.closeConnect();
         } catch (SQLException ex) {
-            System.out.println(st == null);
+        }
+    }
+    
+    /**
+     * Map <String, String> params = new HashMap<String,String>();
+     * params.put("fieldName1","fieldValueUpdate1");
+     * params.put("fieldName2","fieldValueUpdate2");
+     * @param tableName
+     * @param params
+     * @param where{"id", "IdToUpdate"}
+     * @return 
+     **/
+    public boolean updateTable(String tableName, Map<String, String> params, String[] where){
+        if (params.isEmpty() || where.length != 2){
+            return false;
+        }
+        int id = 0, value = 1;
+        try{
+            String sql = "UPDATE n" + encryptMd5.getStringMd5(tableName.toUpperCase()) + " SET ";
+            sql = params.entrySet().stream().map((entry) -> entry.getKey() + "='" + handleString.encodeString(entry.getValue()) + "',").reduce(sql, String::concat);
+            if (sql.endsWith(",")){
+                sql = sql.substring(0, sql.length() - 1);
+            }
+            sql += " WHERE " + where[id] + "='" + handleString.encodeString(where[value]) + "'";
+            return st.execute(sql);
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
         }
     }
 }

@@ -5,12 +5,15 @@
  */
 package layout;
 
+import java.util.Date;
+
 /**
  *
  * @author Nguyen Van Tinh
  */
 public class RaiseFundLayout extends javax.swing.JFrame {
 
+    private String consume = "consume", raise = "raise";
     /**
      * Creates new form RaiseFundLayout
      */
@@ -27,21 +30,230 @@ public class RaiseFundLayout extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCenter = new javax.swing.JPanel();
+        pickerDate = new com.toedter.calendar.JDateChooser();
+        lblDate = new javax.swing.JLabel();
+        lblContent = new javax.swing.JLabel();
+        txtContent = new javax.swing.JTextField();
+        lblAmount = new javax.swing.JLabel();
+        txtAmount = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
+        btnSetToday = new javax.swing.JButton();
+        btnViewHistory = new javax.swing.JButton();
+        lblUnit = new javax.swing.JLabel();
+        panelTitle = new javax.swing.JPanel();
+        lblTitleSite = new javax.swing.JLabel();
+        lblFundRemain = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        panelCenter.setBackground(new java.awt.Color(204, 255, 204));
+        panelCenter.setForeground(new java.awt.Color(51, 0, 153));
+
+        pickerDate.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
+
+        lblDate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblDate.setText("Date:");
+
+        lblContent.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblContent.setText("Contents:");
+
+        txtContent.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtContent.setMinimumSize(new java.awt.Dimension(6, 25));
+        txtContent.setPreferredSize(new java.awt.Dimension(6, 25));
+
+        lblAmount.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblAmount.setText("Amount:");
+
+        txtAmount.setMinimumSize(new java.awt.Dimension(6, 25));
+        txtAmount.setPreferredSize(new java.awt.Dimension(6, 25));
+
+        btnAdd.setBackground(new java.awt.Color(51, 255, 102));
+        btnAdd.setFont(new java.awt.Font("DigifaceWide", 2, 18)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(51, 0, 255));
+        btnAdd.setText("Add");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMouseClicked(evt);
+            }
+        });
+
+        btnExit.setBackground(new java.awt.Color(51, 255, 102));
+        btnExit.setFont(new java.awt.Font("DigifaceWide", 2, 18)); // NOI18N
+        btnExit.setForeground(new java.awt.Color(51, 0, 255));
+        btnExit.setText("Exit");
+        btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExitMouseClicked(evt);
+            }
+        });
+
+        btnSetToday.setBackground(new java.awt.Color(51, 255, 102));
+        btnSetToday.setFont(new java.awt.Font("DigifaceWide", 2, 18)); // NOI18N
+        btnSetToday.setForeground(new java.awt.Color(51, 0, 255));
+        btnSetToday.setText("Set today");
+        btnSetToday.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSetTodayMouseClicked(evt);
+            }
+        });
+
+        btnViewHistory.setBackground(new java.awt.Color(51, 255, 102));
+        btnViewHistory.setFont(new java.awt.Font("DigifaceWide", 2, 18)); // NOI18N
+        btnViewHistory.setForeground(new java.awt.Color(51, 0, 255));
+        btnViewHistory.setText("View history");
+        btnViewHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnViewHistoryMouseClicked(evt);
+            }
+        });
+
+        lblUnit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblUnit.setText("unit: x 1000 VNĐ");
+
+        panelTitle.setBackground(new java.awt.Color(204, 255, 204));
+
+        lblTitleSite.setFont(new java.awt.Font("Tahoma", 2, 24)); // NOI18N
+        lblTitleSite.setForeground(new java.awt.Color(51, 0, 153));
+        lblTitleSite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitleSite.setText("Add new consume");
+
+        lblFundRemain.setFont(new java.awt.Font("Tahoma", 2, 24)); // NOI18N
+        lblFundRemain.setForeground(new java.awt.Color(255, 0, 0));
+        lblFundRemain.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFundRemain.setText("Remaining amount: ");
+
+        javax.swing.GroupLayout panelTitleLayout = new javax.swing.GroupLayout(panelTitle);
+        panelTitle.setLayout(panelTitleLayout);
+        panelTitleLayout.setHorizontalGroup(
+            panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTitleLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(lblTitleSite, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addComponent(lblFundRemain, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelTitleLayout.setVerticalGroup(
+            panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTitleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTitleSite)
+                    .addComponent(lblFundRemain))
+                .addGap(23, 23, 23))
+        );
+
+        javax.swing.GroupLayout panelCenterLayout = new javax.swing.GroupLayout(panelCenter);
+        panelCenter.setLayout(panelCenterLayout);
+        panelCenterLayout.setHorizontalGroup(
+            panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCenterLayout.createSequentialGroup()
+                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCenterLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAmount)
+                            .addComponent(lblContent)
+                            .addComponent(lblDate))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelCenterLayout.createSequentialGroup()
+                                .addComponent(pickerDate, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(btnSetToday, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtContent, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelCenterLayout.createSequentialGroup()
+                                .addComponent(btnViewHistory)
+                                .addGap(77, 77, 77)
+                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(86, 86, 86)
+                                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelCenterLayout.createSequentialGroup()
+                                .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblUnit))))
+                    .addGroup(panelCenterLayout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(panelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelCenterLayout.setVerticalGroup(
+            panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCenterLayout.createSequentialGroup()
+                .addComponent(panelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDate)
+                    .addComponent(pickerDate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetToday, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUnit))
+                .addGap(18, 18, 18)
+                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblContent)
+                    .addComponent(txtContent, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnViewHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(panelCenter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelCenter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        //String date = pickerDate.getDate();
+        /*try{
+            String result = consumeControl.addConsume(pickerDate.getDate(), txtAmount.getText(), txtContent.getText());
+            if (result.equals("")){
+                JOptionPane.showMessageDialog(null, "Success!");
+            }else{
+                JOptionPane.showMessageDialog(null, result);
+            }
+            System.out.println(result);
+        }catch(Exception ex){
+            System.out.println(ex);
+        }*/
+    }//GEN-LAST:event_btnAddMouseClicked
+
+    private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnExitMouseClicked
+
+    private void btnSetTodayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSetTodayMouseClicked
+        // TODO add your handling code here:
+        Date date = new Date();
+        pickerDate.setDate(date);
+    }//GEN-LAST:event_btnSetTodayMouseClicked
+
+    private void btnViewHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnViewHistoryMouseClicked
+        // TODO add your handling code here:
+        //this.switchAddToHistory();
+        this.setVisible(false);
+        dispose();
+        HistoryLayout.main(null);
+    }//GEN-LAST:event_btnViewHistoryMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +291,20 @@ public class RaiseFundLayout extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnSetToday;
+    private javax.swing.JButton btnViewHistory;
+    private javax.swing.JLabel lblAmount;
+    private javax.swing.JLabel lblContent;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblFundRemain;
+    private javax.swing.JLabel lblTitleSite;
+    private javax.swing.JLabel lblUnit;
+    private javax.swing.JPanel panelCenter;
+    private javax.swing.JPanel panelTitle;
+    private com.toedter.calendar.JDateChooser pickerDate;
+    private javax.swing.JTextField txtAmount;
+    private javax.swing.JTextField txtContent;
     // End of variables declaration//GEN-END:variables
 }

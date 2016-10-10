@@ -5,6 +5,7 @@
  */
 package layout;
 
+import common.constant.consumeConstant;
 import controller.consumeController;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,14 +15,25 @@ import javax.swing.table.DefaultTableModel;
  * @author Nguyen Van Tinh
  */
 public class HistoryLayout extends javax.swing.JFrame {
-
-    private consumeController consumeControl = new consumeController();
+    private String type = consumeConstant.TYPE_CONSUME;
+    private consumeController consumeControl = new consumeController(type);
     private DefaultTableModel data = consumeControl.getAllTableConsumeInDB();
     /**
      * Creates new form HistoryLayout
+     * @param type
      */
-    public HistoryLayout() {
+    public HistoryLayout(String type) {
         initComponents();
+        switch (type){
+            case consumeConstant.TYPE_RAISE:
+                this.type = consumeConstant.TYPE_RAISE;
+                break;
+            default:
+                this.type = consumeConstant.TYPE_CONSUME;
+                break;
+        }
+        consumeControl = new consumeController(type);
+        data = consumeControl.getAllTableConsumeInDB();
         tblHistory.setModel(data);
         btnEdit.setVisible(false);
     }
@@ -201,7 +213,7 @@ public class HistoryLayout extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         dispose();
-        HomeLayout.run();
+        HomeLayout.run("consume");
     }//GEN-LAST:event_btnBackMouseClicked
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
@@ -210,9 +222,9 @@ public class HistoryLayout extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitMouseClicked
 
     /**
-     * @param args the command line arguments
+     * @param type
      */
-    public static void main(String args[]) {
+    public static void main(String type) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -238,8 +250,9 @@ public class HistoryLayout extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new HistoryLayout().setVisible(true);
+                new HistoryLayout(type).setVisible(true);
             }
         });
     }

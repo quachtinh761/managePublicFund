@@ -15,6 +15,7 @@ public class consumeObject {
     private Date date;
     private int amount;
     private String content;
+    private String type;
 
     public Date getDate() {
         return date;
@@ -40,7 +41,15 @@ public class consumeObject {
         this.content = content;
     }
 
-    public consumeObject(Date date, int amount, String content) {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public consumeObject(Date date, int amount, String content, String type) {
         if (date != null){
             this.date = date;
         }else{
@@ -48,9 +57,10 @@ public class consumeObject {
         }
         this.amount = amount;
         this.content = content;
+        this.type = type;
     }
     
-    public consumeObject(String date, int amount, String content) {
+    public consumeObject(String date, int amount, String content, String type) {
         if (!date.equals("")){
             this.date = new Date(date);
         }else{
@@ -58,9 +68,10 @@ public class consumeObject {
         }
         this.amount = amount;
         this.content = content;
+        this.type = type;
     }
     
-    public consumeObject(Date date, String amount, String content) {
+    public consumeObject(Date date, String amount, String content, String type) {
         if (date != null){
             this.date = date;
         }else{
@@ -72,9 +83,10 @@ public class consumeObject {
             this.amount = 0;
         }
         this.content = content;
+        this.type = type;
     }
     
-    public consumeObject(String date, String amount, String content) {
+    public consumeObject(String date, String amount, String content, String type) {
         if (!date.equals("")){
             this.date = new Date(date);
         }else{
@@ -86,11 +98,13 @@ public class consumeObject {
             this.amount = 0;
         }
         this.content = content;
+        this.type = type;
     }
     
-    public consumeObject(int amount, String content) {
+    public consumeObject(int amount, String content, String type) {
         this.date = new Date();
         this.amount = amount;
         this.content = content;
+        this.type = type;
     }
 }

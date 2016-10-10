@@ -5,6 +5,8 @@
  */
 package layout;
 
+import common.function.encryptMd5;
+import java.util.Date;
 import model.DBTemplate;
 
 /**
@@ -18,7 +20,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        HomeLayout.run();
+        HomeLayout.run("consume");
         DBTemplate db = new DBTemplate();
         db.getConnect();
         /*consumeModel con = new consumeModel();
@@ -35,8 +37,6 @@ public class Main {
         params.add(new String[]{consumeConstant.KEY_ID, consumeConstant.KEY_ID_TYPE});
         params.add(new String[]{consumeConstant.KEY_DATE, consumeConstant.KEY_DATE_TYPE});
         db.createTable(tblName, params);*/
-        
-        
     }
     
     

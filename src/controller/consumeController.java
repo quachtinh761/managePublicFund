@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package controller;
+import common.constant.consumeConstant;
 import common.constant.getErrMsg;
 import common.function.dateTimeHandle;
 import java.util.Date;
@@ -16,8 +17,21 @@ import object.consumeObject;
  * @author Nguyen Van Tinh
  */
 public class consumeController {
+    private String type = consumeConstant.TYPE_CONSUME;
     private consumeObject conObject;
-    private final consumeModel conModel = new consumeModel();
+    private consumeModel conModel = new consumeModel(this.type);
+    
+    public consumeController(String type){
+        switch (type){
+            case consumeConstant.TYPE_RAISE:
+                this.type = consumeConstant.TYPE_RAISE;
+                break;
+            default:
+                this.type = consumeConstant.TYPE_CONSUME;
+                break;
+        }
+        conModel = new consumeModel(this.type);
+    }
     
     public void getConnect(){
         conModel.getConnect();
@@ -27,14 +41,25 @@ public class consumeController {
         conModel.closeConnect();
     }
     
-    public String addConsume(Date date, String amount, String content){
+    public String addConsume(Date date, String amount, String content, String type){
         String result = "";
         result += checkDate(date);
         result += checkContent(amount);
         result += checkAmount(amount);
         if (result.equals("")){
-            this.conObject = new consumeObject(date, Integer.parseInt(amount), content);
+            this.conObject = new consumeObject(date, Integer.parseInt(amount), content, type);
             conModel.addNew(conObject);
+        }
+        return result;
+    }
+    
+    public String updateConsume(String id, String date, String amount, String content, String type){
+        String result = "";
+        result += checkContent(amount);
+        result += checkAmount(amount);
+        if (result.equals("")){
+            this.conObject = new consumeObject(new Date(), Integer.parseInt(amount), content, type);
+            result += conModel.updateTable(conObject, id);
         }
         return result;
     }
